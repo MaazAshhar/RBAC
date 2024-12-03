@@ -1,5 +1,10 @@
 import bcrypt from "bcrypt";
 import User from "../models/userModel.js";
+import AuthService from '../services/AuthService.js';
+
+
+
+const authService = new AuthService();
 
 export const login = async (req, res) => {
   try {
@@ -19,15 +24,38 @@ export const login = async (req, res) => {
   }
 };
 
+
+
+
 export const register = async (req, res) => {
-  try {
-    const { name, email, password, phone } = req.body;
-    const newPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, email, newPassword, phone });
-    await user.save();
-    return res.status(201).json({ message: "user registered successfully" });
-  } catch (error) {
-    console.log("error in registering user", error);
-    return res.status(500).json({ message: "Internal server error" });
+  const { username, email, phone, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json(
+      { 
+        error: "Username or Password can't be empty" 
+      }
+    );
   }
+
+
+  const parsedUser = {
+    username: username,
+    email: email,
+    phone: phone,
+    password: password
+  };
+  const isRegistered = await authService.register(parsedUser);
+
+  if (isRegistered) {
+    return res.status(201).json(
+      { 
+        message: "user registered successfully" 
+      }
+    );
+  }
+  return res.status(500).json(
+    { 
+      error: "Internal server error" 
+    }
+  );
 };

@@ -11,12 +11,11 @@ class UserRepository extends BaseRepository {
             username: username
         };
 
-        const users = this.query(payload);
-        let user = null;
-        for(let u of users) {
-            user = u;
-            break;
-        }
-        return user;
+        return await this.getOne(payload);
+    }
+
+    async createUser(payload) {
+        const user = new this._model(payload);
+        await this.save(user);
     }
 }

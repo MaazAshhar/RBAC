@@ -1,6 +1,0 @@
-
-class BaseSerializer {
-    static fields() {
-        
-    }
-}

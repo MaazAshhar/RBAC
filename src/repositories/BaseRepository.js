@@ -10,8 +10,16 @@ class BaseRepository {
         });
     }
 
+    async save(entity) {
+        await entity.save();
+    }
+
     async getById(id) {
         return await this._model.findById(id);
+    }
+
+    async getOne(filter) {
+        return await this._model.findOne(filter);
     }
 
     async query(queryObject) {
