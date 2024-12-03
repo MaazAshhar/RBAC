@@ -8,7 +8,6 @@ const authService = new AuthService();
 
 export const login = async (req, res) => {
   try {
-    res.status(200).json({ message: "welcome to login" });
     const { username, email, password } = req.body;
     if (username) {
       const user = await User.findOne({ username: username });
@@ -16,6 +15,15 @@ export const login = async (req, res) => {
         return res.status(400).json({ message: "user not found" });
       }
       if (await bcrypt.compare(password, user.password)) {
+        const token = authService.generateToken(user);
+        if(token){
+            return res.status(200).json({ status : "success",message: "login success", token: token});
+        }
+        else{
+            return res.status(500).json({status : "failed",message : "error in logging"});
+        }
+      }else{
+        return res.status(400).json({status : "failed",message : "invalid credentials"});
       }
     }
   } catch (error) {
@@ -29,10 +37,11 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   const { username, email, phone, password } = req.body;
-  if (!username || !password) {
+  if (!username || !password || !email) {
     return res.status(400).json(
       { 
-        error: "Username or Password can't be empty" 
+        status : "failed",
+        error: "Username, email or Password can't be empty" 
       }
     );
   }
@@ -49,12 +58,14 @@ export const register = async (req, res) => {
   if (isRegistered) {
     return res.status(201).json(
       { 
+        status : "success",
         message: "user registered successfully" 
       }
     );
   }
   return res.status(500).json(
     { 
+        status : "failed",
       error: "Internal server error" 
     }
   );

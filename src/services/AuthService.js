@@ -36,4 +36,21 @@ class AuthService {
             return false;
         }
     }
+    async generateToken(user){
+        try{
+            const payload = {
+                role : user.role,
+                id : user._id,
+            };
+            const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1d'});
+            if(token){
+                return token;
+            }
+            return null;
+        }catch(error){
+            console.log("error in generating token",error);
+            return null;
+        }
+        
+    }
 }
