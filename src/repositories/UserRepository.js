@@ -6,12 +6,19 @@ class UserRepository extends BaseRepository {
         super(User);
     }
 
-    async getByUsername(username) {
+    async getByUsername(username, select=null) {
         payload = {
             username: username
         };
 
-        return await this.getOne(payload);
+        return await this.getOne(payload, select);
+    }
+    
+    async getByEmail(email, select=null){
+        payload = {
+            email : email,
+        };
+        return await this.getOne(payload, select);
     }
 
     async createUser(payload) {

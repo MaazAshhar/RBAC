@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import UserRepository from '../repositories/UserRepository.js';
+import JwtService from "../services/JwtService.js";
 
 
 class AuthService {
@@ -7,9 +8,55 @@ class AuthService {
 
     constructor() {
         this.userRepository = new UserRepository();
+        this.jwtService = new JwtService();
     }
 
     async login(username, email, password) {
+        let user = null;
+        let token = null;
+        let error = null;
+        if(username && password){
+            user = await this.userRepository.getByUsername(username);
+            if(!user){
+                token = null;
+                error = {
+                    status: 404,
+                    message: "User not found"
+                };
+            }else{
+                if(await bcrypt.compare(password, user.password)){
+                    const payload = {
+                        id : user._id,
+                        role : user.role,
+                    }
+                    token = this.jwtService.generateToken(payload);
+                }
+            }         
+        } else if (email && password) {
+            user = await this.userRepository.getByEmail(email);
+            if (!user) {
+                token = null;
+                error = {
+                    status: 404,
+                    message: "User not found"
+                };
+            }else{
+                if(await bcrypt.compare(password, user.password)){
+                    const payload = {
+                        id : user._id,
+                        role : user.role,
+                    }
+                    token = this.jwtService.generateToken(payload);
+                }
+            }
+        } else {
+            error = {
+                status: 400,
+                message: "Please provide required input"
+            };
+        }
+
+        return [user, token, error];
 
     }
 
@@ -35,22 +82,5 @@ class AuthService {
             console.error(error);
             return false;
         }
-    }
-    async generateToken(user){
-        try{
-            const payload = {
-                role : user.role,
-                id : user._id,
-            };
-            const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1d'});
-            if(token){
-                return token;
-            }
-            return null;
-        }catch(error){
-            console.log("error in generating token",error);
-            return null;
-        }
-        
     }
 }

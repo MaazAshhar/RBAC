@@ -9,22 +9,15 @@ const authService = new AuthService();
 export const login = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    if (username) {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return res.status(400).json({ message: "user not found" });
-      }
-      if (await bcrypt.compare(password, user.password)) {
-        const token = authService.generateToken(user);
-        if(token){
-            return res.status(200).json({ status : "success",message: "login success", token: token});
+    const [user, token, error] = await authService.login();
+    if(user && token){
+        return res.status(200).json({status : "success", user, token});
+    }else{
+        if(error){
+            return res.status(error.status).json({status : "failed", message : error.message});
+        }else{
+            return res.status(400).json({status : "failed", message : "Invalid credentials"});
         }
-        else{
-            return res.status(500).json({status : "failed",message : "error in logging"});
-        }
-      }else{
-        return res.status(400).json({status : "failed",message : "invalid credentials"});
-      }
     }
   } catch (error) {
     console.log("error in login", error);
