@@ -25,6 +25,9 @@ class BaseRepository {
     async query(queryObject) {
         return await this._model.find(queryObject);
     }
+    async getAll(){
+        return await this._model.find();
+    }
 }
 
 export default BaseRepository;
