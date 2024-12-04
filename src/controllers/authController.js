@@ -9,7 +9,7 @@ const authService = new AuthService();
 export const login = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    const [user, token, error] = await authService.login();
+    const [user, token, error] = await authService.login(username, email, password);
     if(user && token){
         return res.status(200).json({status : "success", user, token});
     }else{

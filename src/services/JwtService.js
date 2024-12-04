@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import jwt from 'jsonwebtoken';
 dotenv.config();
 
-class JwtService {
+export default class JwtService {
     SECRET_KEY = process.env.JWT_SECRET;
     DEFAULT_OPTION = {
         expiresIn: '1d',

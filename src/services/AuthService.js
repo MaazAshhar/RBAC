@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import UserRepository from '../repositories/UserRepository.js';
-import JwtService from "../services/JwtService.js";
+import JwtService from "./JwtService.js";
 
 
-class AuthService {
+export default class AuthService {
     HASH_SALT = 10;
 
     constructor() {
