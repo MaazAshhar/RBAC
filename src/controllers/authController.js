@@ -16,7 +16,7 @@ export const login = async (req, res) => {
         if(error){
             return res.status(error.status).json({status : "failed", message : error.message});
         }else{
-            return res.status(400).json({status : "failed", message : "Invalid credentials"});
+            return res.status(400).json({status : "failed", message : "Something went wrong try again"});
         }
     }
   } catch (error) {

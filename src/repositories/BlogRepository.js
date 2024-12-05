@@ -8,5 +8,13 @@ export default class BlogRepository extends BaseRepository {
         super(Blog);
     }
 
+    async createBlog(payload){
+        const blog = this._model(payload);
+        await this.save(blog);
+    }
+
+    async deleteBlog(payload){
+        return this.deleteOne(payload);
+    }
 
 }

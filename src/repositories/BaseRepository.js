@@ -41,6 +41,10 @@ class BaseRepository {
         }
         return await this._model.find();
     }
+    async deleteOne(filter){
+        await this._model.deleteOne(filter);
+        return true;
+    }
 }
 
 export default BaseRepository;

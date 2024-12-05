@@ -30,6 +30,12 @@ export default class AuthService {
                         role : user.role,
                     }
                     token = this.jwtService.generateToken(payload);
+                }else{
+                    token = null;
+                    error = {
+                        status: 401,
+                        message : "Invalid credentials",
+                    }
                 }
             }         
         } else if (email && password) {
@@ -47,6 +53,12 @@ export default class AuthService {
                         role : user.role,
                     }
                     token = this.jwtService.generateToken(payload);
+                }else{
+                    token = null;
+                    error = {
+                        status: 401,
+                        message : "Invalid credentials",
+                    }
                 }
             }
         } else {
