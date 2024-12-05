@@ -18,7 +18,7 @@ export default class BlogService{
     }
 
 
-    async deleteBlog(blogId){
+    async deleteBlogById(blogId){
         try{
             const payload = {
                 _id : blogId,
