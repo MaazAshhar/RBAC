@@ -63,3 +63,25 @@ export const register = async (req, res) => {
     }
   );
 };
+
+
+export const changePassword = (req,res)=>{
+    try {
+        const {oldPassword, newPassword, confirmNewPassword, userId} = req.body;
+        if(userId.toString !== req.user?.id.toString()){
+            return res.status(401).json({status : "failed", message: "Unauthorized"});
+        }
+        const [done, error] = authService.changePassword(oldPassword, newPassword, confirmNewPassword, userId);
+        if(error){
+            return res.status(error.status).json({status : "failed", message : error.message});
+        }
+        else if(done){
+            return res.status(200).json({status : "success", message : "password changed successfully"});
+        }
+        return res.status(500).json({status : "failed", message : "something went wrong, try again !!!"});
+
+    } catch (error) {
+        console.error("error in changing password",error);
+        return res.status(500).json({status : "failed", message : "Internal server error"});
+    }
+}

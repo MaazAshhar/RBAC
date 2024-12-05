@@ -7,7 +7,7 @@ export default class UserRepository extends BaseRepository {
     }
 
     async getByUsername(username, select=null) {
-        payload = {
+        const payload = {
             username: username
         };
 
@@ -15,7 +15,7 @@ export default class UserRepository extends BaseRepository {
     }
     
     async getByEmail(email, select=null){
-        payload = {
+        const payload = {
             email : email,
         };
         return await this.getOne(payload, select);

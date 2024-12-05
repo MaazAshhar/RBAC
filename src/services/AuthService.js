@@ -95,4 +95,33 @@ export default class AuthService {
             return false;
         }
     }
+
+
+    async changePassword(oldPassword, newPassword, confirmNewPassword, userId){
+        let error = null;
+        let done = null;
+        try{
+            if(!oldPassword || !newPassword || !confirmNewPassword || ! userId){
+                error = {
+                    status : 400,
+                    message : "Please provide all required input",
+                }
+            }
+            else if(newPassword !== confirmNewPassword){
+               error = {
+                status : 400,
+                message : "Passwords do not match",
+               } 
+            }
+            
+        }catch(error){
+            console.error("something went wrong in changing password",error);
+            error = {
+                status : 500,
+                message : "Internal server error",
+            }
+            done=false;
+            return [done, error];
+        }
+    }
 }
