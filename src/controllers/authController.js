@@ -30,11 +30,11 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   const { username, email, phone, password } = req.body;
-  if (!username || !password || !email) {
+  if (!username || !password || !email || !phone) {
     return res.status(400).json(
       { 
         status : "failed",
-        error: "Username, email or Password can't be empty" 
+        error: "Username, email, phone and Password can't be empty" 
       }
     );
   }
