@@ -41,8 +41,15 @@ class BaseRepository {
         }
         return await this._model.find();
     }
+
+
     async deleteOne(filter){
         await this._model.deleteOne(filter);
+        return true;
+    }
+
+    async updateOne(filter,payload){
+        await this._model.updateOne(filter,payload);
         return true;
     }
 }

@@ -25,7 +25,13 @@ export default class UserRepository extends BaseRepository {
         const user = new this._model(payload);
         await this.save(user);
     }
+
+
     async getAllUsers(select=null){
         return await this.getAll(select);
+    }
+
+    async updateOneUser(filter,payload){
+        return await this.updateOne(filter,payload);
     }
 }
