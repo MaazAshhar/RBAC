@@ -21,15 +21,13 @@ const blogSchema = new Schema(
       default: "pending", // Moderation status
     },
     flagged: {
-      isFlagged : {
         type: Boolean,
         default: false, // Flagged content
-      },
-      flaggedBy :{
-        type: mongoose.Schema.Types.ObjectId,
-        ref : "User",
-      }
     },
+    flaggedBy :[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref : "User",
+    }]
   },
   { timestamps: true }
 );

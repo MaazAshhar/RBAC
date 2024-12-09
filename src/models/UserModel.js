@@ -22,10 +22,14 @@ const userSchema = new Schema({
         },
         message : props => `${props.value} is not a valid phone number. It must be exactly 10 digits long and contain no spaces.`
     }
-},
+  },
   password: {
     type: String,
     required: true,
+  },
+  fullName: {
+    type : String,
+    required : true,
   },
   role: {
     type: String,

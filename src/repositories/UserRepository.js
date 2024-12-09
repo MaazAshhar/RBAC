@@ -1,22 +1,28 @@
 import User from "../models/userModel.js";
 import BaseRepository from "./BaseRepository.js";
 
-class UserRepository extends BaseRepository {
+export default class UserRepository extends BaseRepository {
     constructor() {
         super(User);
     }
 
-    async getByUsername(username) {
-        payload = {
+    async getByUsername(username, select=null) {
+        const payload = {
             username: username
         };
 
-        const users = this.query(payload);
-        let user = null;
-        for(let u of users) {
-            user = u;
-            break;
-        }
-        return user;
+        return await this.getOne(payload, select);
+    }
+    
+    async getByEmail(email, select=null){
+        const payload = {
+            email : email,
+        };
+        return await this.getOne(payload, select);
+    }
+
+    async createUser(payload) {
+        const user = new this._model(payload);
+        return await this.save(user);
     }
 }
