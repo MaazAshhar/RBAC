@@ -44,14 +44,15 @@ Steps to set up and run project locally
 
 ## api_documentation
 
+Base URL (Local) - http://localhost:5000
+
 ### Authentication_API_Documentation
     Following are the details about the authentication-related endpoints, including the request format, response structure, and descriptions.
 
-    Base URL - http://localhost:5000/api/auth
     Endpoints
     1. Register User
-        Endpoint:
-        POST /register
+        Endpoint: /api/auth/register
+        Method: POST 
 
         Description:
         Registers a new user in the system.
@@ -93,8 +94,8 @@ Steps to set up and run project locally
 
 
     2. Login User
-        Endpoint:
-        POST /login
+        Endpoint: /api/auth/login
+        Method: POST 
 
         Description:
         Authenticates a user and returns a JWT token upon successful login.
@@ -135,8 +136,8 @@ Steps to set up and run project locally
 
 
     3. Change Password
-        Endpoint:
-        POST /change-password
+        Endpoint: /api/auth/change-password
+        Method: POST 
 
         Description:
         Allows a user to change their password. This endpoint requires authentication.
@@ -192,12 +193,11 @@ Steps to set up and run project locally
 ### User_API_Documentation
     Following are the details about the User Management API endpoints, including the request format, response structure, and descriptions.
 
-    Base URL - http://localhost:5000/api/user
     Endpoints
 
     1. Update User
-        Endpoint:
-        PUT /:id
+        Endpoint: /api/user/:id
+        Method: PUT
 
         Description:
         Updates a user's information. This endpoint requires authentication and allows the user to update only their own data.
@@ -241,8 +241,8 @@ Steps to set up and run project locally
         "message": "Internal server error"
         }
     2. Get User By ID
-        Endpoint:
-        GET /:id
+        Endpoint: /api/user/:id
+        Method: GET 
 
         Description:
         Fetches a user's details by their ID. This endpoint requires authentication and allows users to view only their own details.
@@ -294,12 +294,11 @@ Steps to set up and run project locally
 ### Admin_API_Documentation
     Following are the comprehensive details about the Admin Management API endpoints, including request format, response structure, and descriptions.
 
-    Base URL - http://localhost:5000/api/admin
     Endpoints
 
     1. Create User
-        Endpoint:
-        POST /user/create
+        Endpoint: /api/admin/user/create
+        Method: POST 
 
         Description:
         Allows admins to create a new user with specified details.
@@ -338,8 +337,8 @@ Steps to set up and run project locally
         }
 
     2. Delete User
-        Endpoint:
-        DELETE /user/delete/:userId
+        Endpoint: /api/admin/user/delete/:userId
+        Method: DELETE 
 
         Description:
         Deletes a user by their ID.
@@ -370,8 +369,8 @@ Steps to set up and run project locally
         }
 
     3. Ban or Unban User
-        Endpoint:
-        POST /user/status
+        Endpoint: /api/admin/user/status
+        Method: POST 
 
         Description:
         Updates the active status of a user (bans/unbans).
@@ -403,8 +402,8 @@ Steps to set up and run project locally
         }
 
     4. Get All Users
-        Endpoint:
-        GET /users
+        Endpoint: /api/admin/users
+        Method: GET 
 
         Description:
         Fetches all users in the system.
@@ -450,8 +449,8 @@ Steps to set up and run project locally
         }
 
     5. Promote User
-        Endpoint:
-        POST /user/update-role
+        Endpoint: /api/admin/user/update-role
+        Method: POST 
 
         Description:
         Updates the role of a user (e.g., promoting a user to an admin).
@@ -492,14 +491,13 @@ Steps to set up and run project locally
 
 
 ### Blog_Management_API_Documentation
-    This document provides a detailed overview of the Blog Management API endpoints, including request/response formats, headers, and functionality.
+    Following are the comprehensive details of the Blog Management API endpoints, including request/response formats, headers, and functionality.
 
-    Base URL - http://localhost:5000/api/blog
     Endpoints
 
     1. Create Post
-        Endpoint:
-        POST /
+        Endpoint: /api/blog
+        Method: POST 
 
         Description:
         Allows users to create a new blog post.
@@ -532,8 +530,8 @@ Steps to set up and run project locally
         }
 
     2. Update Post
-        Endpoint:
-        PATCH /:blogId
+        Endpoint: /api/blog/:blogId
+        Method: PATCH
 
         Description:
         Updates the content of an existing blog post.
@@ -573,8 +571,8 @@ Steps to set up and run project locally
         }
 
     3. Delete Post
-        Endpoint:
-        DELETE /:blogId
+        Endpoint: /api/blog/:blogId
+        Method: DELETE
 
         Description:
         Deletes a blog post by its ID.
@@ -609,8 +607,8 @@ Steps to set up and run project locally
         }
 
     4. Flag or Unflag Post
-        Endpoint:
-        POST /:blogId/flag
+        Endpoint: /api/blog/:blogId/flag
+        Method: POST
 
         Description:
         Flags or unflags a blog post.
@@ -648,8 +646,8 @@ Steps to set up and run project locally
         }
 
     5. Curate Post
-        Endpoint:
-        POST /:blogId/curate
+        Endpoint: /api/blog/:blogId/curate
+        Method: POST
 
         Description:
         Allows admins or moderators to curate a blog post by updating its status.
@@ -688,8 +686,8 @@ Steps to set up and run project locally
         }
 
     6. Get All Blogs by User
-        Endpoint:
-        GET /get
+        Endpoint: /api/blog/get
+        Method: GET
 
         Description:
         Fetches all blog posts created by the authenticated user.
@@ -725,8 +723,8 @@ Steps to set up and run project locally
         }
 
     7. Get All Posts
-        Endpoint:
-        GET /get-all-post
+        Endpoint: /api/blog/get-all-post
+        Method: GET 
 
         Description:
         Fetches all blog posts in the system.
