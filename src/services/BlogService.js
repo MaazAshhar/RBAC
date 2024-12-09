@@ -78,4 +78,13 @@ export default class BlogService{
             console.error(`error: ${error} in curating blog having blogId: ${id}`);
         }
     }
+    
+
+    async getAllPost(){
+        return await this.blogRepository.query(
+            {
+                status : "approved"
+            }
+        )
+    }
 }

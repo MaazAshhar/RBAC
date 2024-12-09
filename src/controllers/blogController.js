@@ -162,3 +162,17 @@ export const getAllBlogByUserId = async (req, res) => {
         }
     );
 }
+
+
+export const getAllPost = async(req,res)=>{
+    try {
+        const blogs = await blogService.getAllPost();
+        if(blogs){
+            return res.status(200).json({status : "success", blogs});
+        }
+        return res.status(400).json({status : "failed", error : "no blogs found"});
+    } catch (error) {
+        console.error("error in getting post",error);
+        return res.status(500).json({status : "failed", error : "Internal server error"});
+    }
+}
