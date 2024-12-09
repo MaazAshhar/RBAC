@@ -1,5 +1,3 @@
-import bcrypt from "bcrypt";
-import User from "../models/userModel.js";
 import AuthService from '../services/AuthService.js';
 
 
