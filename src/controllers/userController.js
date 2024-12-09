@@ -9,8 +9,8 @@ export const updateUser = async (req,res)=>{
         if(userId !== req.user?.id){
             return res.status(403).json({message:"You are not authorized to update this user."});
         }
-        const payload = {...req.body};
-        const resp=await userService.updateUserById(userId,payload);
+        const {username, email, password, isActive, role, ...payload} = req.body;
+        const resp=await userService.updateUserById(userId, payload);
         if(resp){
             return res.status(200).json({status : "success", message:"User updated successfully"});
         }

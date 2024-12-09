@@ -10,11 +10,28 @@ export default class BlogRepository extends BaseRepository {
 
     async createBlog(payload){
         const blog = this._model(payload);
-        await this.save(blog);
+        return await this.save(blog);
     }
 
-    async deleteBlog(payload){
-        return this.deleteOne(payload);
+    async flagPost(id, flaggedBy) {
+        const blog = await this._model.findByIdAndUpdate(
+            id,
+            { 
+                flagged: true,
+                $addToSet: { flaggedBy: flaggedBy } 
+            }, 
+            { new: true } 
+        );
+        return blog;
+    }
+
+    async unflagPost(id) {
+        const blog = await this._model.findByIdAndUpdate(
+            id,
+            { flagged: false },
+            { new: true }
+        );
+        return blog;
     }
 
 }

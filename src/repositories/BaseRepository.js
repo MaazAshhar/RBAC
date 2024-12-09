@@ -11,7 +11,7 @@ class BaseRepository {
     }
 
     async save(entity) {
-        await entity.save();
+        return await entity.save();
     }
 
     async getById(id, select=null) {
@@ -44,13 +44,20 @@ class BaseRepository {
 
 
     async deleteOne(filter){
-        await this._model.deleteOne(filter);
-        return true;
+        return await this._model.deleteOne(filter);
     }
 
     async updateOne(filter,payload){
-        await this._model.updateOne(filter,payload);
-        return true;
+        return await this._model.updateOne(filter,payload);
+    }
+
+    async updateById(id, payload) {
+        const updatedEntity = await this._model.findByIdAndUpdate(
+            id,
+            payload,
+            { new: true } // Return the updated document
+        );
+        return updatedEntity;
     }
 }
 

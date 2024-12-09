@@ -1,12 +1,17 @@
 import { Router } from "express";
-import { createPost, deletePost, updatePost } from "../controllers/blogController.js";
+import { createPost, curatePost, deletePost, flagOrUnflagPost, getAllBlogByUserId, updatePost } from "../controllers/blogController.js";
+import { authenticate } from "../middlewares/authenticate.js";
+import { authorize } from "../middlewares/authorize.js";
+import { ADMIN_ROLE, MODERATOR_ROLE } from "../constants/commonConstants.js";
 
 const router = Router();
 
-router.post('/create',createPost);
-router.put('/update',updatePost);
-router.delete('/delete',deletePost);
-
+router.post('',createPost);
+router.patch('/:blogId', updatePost);
+router.delete('/:blogId', authenticate, deletePost);
+router.post('/:blogId/flag', authenticate, flagOrUnflagPost);
+router.post('/get', authenticate, getAllBlogByUserId);
+router.post('/:blogId/curate', authenticate, authorize([ADMIN_ROLE, MODERATOR_ROLE]), curatePost);
 
 
 export default router;

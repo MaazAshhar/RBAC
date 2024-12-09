@@ -82,14 +82,12 @@ export default class AuthService {
         try {
             const hashPassword = await bcrypt.hash(parsedUser.password, this.HASH_SALT);
             const userPayload = {
-                username: parsedUser.username,
-                email: parsedUser.email,
-                phone: parsedUser.phone,
+                ...parsedUser,
                 password: hashPassword
             };
     
-            await this.userRepository.createUser(userPayload);
-            return true;
+            const user = await this.userRepository.createUser(userPayload);
+            return user.id;
         } catch (error) {
             console.error(error);
             return false;

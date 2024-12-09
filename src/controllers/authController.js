@@ -29,14 +29,16 @@ export const login = async (req, res) => {
 
 
 export const register = async (req, res) => {
-  const { username, email, phone, password } = req.body;
-  if (!username || !password || !email || !phone) {
+  const { username, email, phone, password, fullName } = req.body;
+  if (!username || !password || !email || !phone || fullName) {
     return res.status(400).json(
       { 
         status : "failed",
-        error: "Username, email, phone and Password can't be empty" 
+        error: "Username, email, phone Password and fullName can't be empty" 
       }
     );
+  }else if(password.length < 6){
+    return res.status(400).json({status : "failed", error : "password must be at least 6 characters long"});
   }
 
 
@@ -44,15 +46,17 @@ export const register = async (req, res) => {
     username: username,
     email: email,
     phone: phone,
-    password: password
+    password: password,
+    fullName,
   };
-  const isRegistered = await authService.register(parsedUser);
+  const userId = await authService.register(parsedUser);
 
-  if (isRegistered) {
+  if (userId) {
     return res.status(201).json(
       { 
         status : "success",
-        message: "user registered successfully" 
+        message: "user registered successfully",
+        userId: userId
       }
     );
   }

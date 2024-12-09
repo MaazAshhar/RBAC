@@ -8,7 +8,7 @@ export default class UserService {
 
 
     async getAllUsers(){
-        const users = await this.userRepository.getAllUsers('-password');
+        const users = await this.userRepository.getAll('-password');
         return users;
     }
 
@@ -21,9 +21,8 @@ export default class UserService {
     }
 
     async getUserById(userId){
-        let user=null;
         let error=null;
-        user=await this.userRepository.getOne({_id : userId},'-password');
+        const user = await this.userRepository.getById(userId, '-password');
         if(!user){
             error={
                 status : 404,
@@ -31,5 +30,34 @@ export default class UserService {
             }
         }
         return [user, error];
+    }
+
+    async updateUserActiveStatus(id, status) {
+        try {
+            const user = await this.userRepository.updateById(
+                id,
+                {
+                    isActive: status
+                }
+            );
+            return user;
+        } catch (error) {
+            console.log(`Error in updating active status of userId: ${userId}`);
+        }
+    }
+
+
+    async updateUserRole(id, role) {
+        try {
+            const user = await this.userRepository.updateById(
+                id,
+                {
+                    role: role
+                }
+            );
+            return user;
+        } catch (error) {
+            console.log(`Error in updating role of userId: ${userId}`);
+        }
     }
 }
