@@ -45,6 +45,7 @@ Steps to set up and run project locally
 ## api_documentation
 
 Base URL (Local) - http://localhost:5000
+Base URL (Hosted) - https://rbac-sage.vercel.app
 
 ### Authentication_API_Documentation
     Following are the details about the authentication-related endpoints, including the request format, response structure, and descriptions.
