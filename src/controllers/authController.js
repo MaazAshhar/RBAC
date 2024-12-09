@@ -14,14 +14,14 @@ export const login = async (req, res) => {
         return res.status(200).json({status : "success", user, token});
     }else{
         if(error){
-            return res.status(error.status).json({status : "failed", message : error.message});
+            return res.status(error.status).json({status : "failed", error : error.message});
         }else{
-            return res.status(400).json({status : "failed", message : "Something went wrong try again"});
+            return res.status(400).json({status : "failed", error : "Something went wrong try again"});
         }
     }
   } catch (error) {
     console.log("error in login", error);
-    return res.status(500).json({message : "Internal server error"});
+    return res.status(500).json({status : "failed", error : "Internal server error"});
   }
 };
 
@@ -30,7 +30,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   const { username, email, phone, password, fullName } = req.body;
-  if (!username || !password || !email || !phone || fullName) {
+  if (!username || !password || !email || !phone || !fullName) {
     return res.status(400).json(
       { 
         status : "failed",
@@ -49,9 +49,11 @@ export const register = async (req, res) => {
     password: password,
     fullName,
   };
-  const userId = await authService.register(parsedUser);
-
-  if (userId) {
+  const [done, error, userId] = await authService.register(parsedUser);
+  if(error){
+    return res.status(error.status).json({status : "failed", error : error.message});
+  }
+  if (done) {
     return res.status(201).json(
       { 
         status : "success",
@@ -69,20 +71,20 @@ export const register = async (req, res) => {
 };
 
 
-export const changePassword = (req,res)=>{
+export const changePassword = async (req,res)=>{
     try {
         const {oldPassword, newPassword, confirmNewPassword, userId} = req.body;
-        if(userId.toString !== req.user?.id.toString()){
-            return res.status(401).json({status : "failed", message: "Unauthorized"});
+        if(userId.toString() !== req.user?.id.toString()){
+            return res.status(401).json({status : "failed", error: "Unauthorized"});
         }
-        const [done, error] = authService.changePassword(oldPassword, newPassword, confirmNewPassword, userId);
+        const [done, error] = await authService.changePassword(oldPassword, newPassword, confirmNewPassword, userId);
         if(error){
-            return res.status(error.status).json({status : "failed", message : error.message});
+            return res.status(error.status).json({status : "failed", error : error.message});
         }
         else if(done){
             return res.status(200).json({status : "success", message : "password changed successfully"});
         }
-        return res.status(500).json({status : "failed", message : "something went wrong, try again !!!"});
+        return res.status(500).json({status : "failed", error : "something went wrong, try again !!!"});
 
     } catch (error) {
         console.error("error in changing password",error);

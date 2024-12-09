@@ -11,6 +11,10 @@ const createAdmin = async () => {
     const password = process.env.ADMIN_PASSWORD;
     const phone = process.env.ADMIN_PHONE;
     const fullName = process.env.ADMIN_FULLNAME;
+    if(!username || !email || !password || !phone || !fullName){
+        console.log("Please write all the necessary variables in .env file. Please refer to Readme file to set up admin account");
+        throw Error('Please write all the necessary variables in .env file. Please refer to Readme file to set up admin account');
+    }
     const user = await userRepository.getByUsername(username);
     if (user) {
       console.log("admin is already set up");
