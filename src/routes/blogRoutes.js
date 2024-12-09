@@ -6,11 +6,11 @@ import { ADMIN_ROLE, MODERATOR_ROLE } from "../constants/commonConstants.js";
 
 const router = Router();
 
-router.post('',createPost);
-router.patch('/:blogId', updatePost);
+router.post('', authenticate, createPost);
+router.patch('/:blogId', authenticate, updatePost);
 router.delete('/:blogId', authenticate, deletePost);
 router.post('/:blogId/flag', authenticate, flagOrUnflagPost);
-router.post('/get', authenticate, getAllBlogByUserId);
+router.get('/get', authenticate, getAllBlogByUserId);
 router.post('/:blogId/curate', authenticate, authorize([ADMIN_ROLE, MODERATOR_ROLE]), curatePost);
 
 

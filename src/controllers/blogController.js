@@ -10,7 +10,7 @@ export const createPost = async(req,res)=>{
         const userId = req.user.id;
         const blogId = await blogService.createBlog(title, body, userId);
         if (blogId) {
-            res.status(201).json(
+            return res.status(201).json(
                 {
                     status: 201,
                     message: "Blog created",
@@ -18,10 +18,11 @@ export const createPost = async(req,res)=>{
                 }
             );
         }
+        return res.status(400).json({status : "failed", error : "something went wrong"});
     }catch(error){
         console.log("error in creating post",error);
     }
-    res.status(500).json(
+    return res.status(500).json(
         {
             status: 500,
             message: "Error in creating blog"
@@ -33,7 +34,7 @@ export const deletePost = async (req,res)=>{
         const {blogId} = req.params;
         const blog = await blogService.deleteBlogById(blogId);
         if (blog) {
-            res.status(200).json(
+            return res.status(200).json(
                 {
                     status: 200,
                     message: "Blog deleted",
@@ -41,10 +42,11 @@ export const deletePost = async (req,res)=>{
                 }
             );
         }
+        return res.status(400).json({status : "failed", error : "Something went wrong"});
     } catch (error) {
         console.log("error in deleting post",error);
     }
-    res.status(500).json(
+    return res.status(500).json(
         {
             status: 500,
             message: "Error in creating blog"
@@ -55,10 +57,10 @@ export const deletePost = async (req,res)=>{
 export const updatePost = async (req,res)=>{
     try {
         const { blogId } = req.params;
-        const payload = req.body;
+        const {status, flagged, flaggedBy, ...payload} = req.body;
         const blog = await blogService.updateBlogById(blogId, payload);
         if (blog) {
-            res.status(200).json(
+            return res.status(200).json(
                 {
                     status: 200,
                     message: "Blog Updated",
@@ -66,10 +68,11 @@ export const updatePost = async (req,res)=>{
                 }
             );
         }
+        return res.status(400).json({status : "failed", error : "Something went wrong"});
     } catch (error) {
         console.log("error in updating post",error);
     }
-    res.status(500).json(
+    return res.status(500).json(
         {
             status: 500,
             message: "Error in updating blog"
@@ -80,10 +83,10 @@ export const updatePost = async (req,res)=>{
 export const flagOrUnflagPost = async(req,res)=>{
     try {
         const {blogId} = req.params;
-        const {userId} = req.user.id;
+        const userId = req.user.id;
         const {flag} = req.body;
         if (!flag && req.user.role !== MODERATOR_ROLE) {
-            res.status(400).json(
+            return res.status(400).json(
                 {
                     status: 'failed',
                     message: "User doesn't have permission to unflag"
@@ -92,17 +95,18 @@ export const flagOrUnflagPost = async(req,res)=>{
         }
         const blog = await blogService.updateFlagById(blogId, flag, userId);
         if(blog) {
-            res.status(200).json(
+            return res.status(200).json(
                 {
                     status: 200,
                     message: "Updated Flag"
                 }
             );
         };
+        return res.status(400).json({status : "failed", error : "Something went wrong"});
     } catch (error) {
         console.log("error in flag post",error);
     }
-    res.status(500).json(
+    return res.status(500).json(
         {
             status: 500,
             message: "Error in updating flag"
@@ -116,17 +120,18 @@ export const curatePost = async (req, res)=>{
         const {status} = req.body;
         const blog = await blogService.curatePostById(blogId, status);
         if(blog) {
-            res.status(200).json(
+            return res.status(200).json(
                 {
                     status: 200,
                     message: `Blog having ${blogId} is curated`
                 }
             );
         }
+        return res.status(400).json({status : "failed", error : "Something went wrong"});
     } catch (error) {
         console.log("error in approving post",error);
     }
-    res.status(500).json(
+    return res.status(500).json(
         {
             status: 500,
             message: "Error in curating blog"
@@ -139,17 +144,18 @@ export const getAllBlogByUserId = async (req, res) => {
         const userId = req.user.id;
         const blogs = await blogService.getAllBlogByUserId(userId);
         if (blogs) {
-            res.status(200).json(
+            return res.status(200).json(
                 {
                     status: 200,
                     blogs: blogs
                 }
             );
         }
+        return res.status(400).json({status : "failed", error : "Something went wrong"});
     } catch (error) {
         console.log("error in getting blog",error);
     }
-    res.status(500).json(
+    return res.status(500).json(
         {
             status: 500,
             message: "Error in getting blog"

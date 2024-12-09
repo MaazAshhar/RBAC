@@ -51,13 +51,14 @@ export const deleteUser = async (req,res)=>{
         const {userId} = req.params;
         const user = await userService.deleteUserById(userId);
         if (user) {
-            req.status(200).json(
+            return res.status(200).json(
                 {
                     status: "success",
                     message: `User deleted with userId: ${userId}`
                 }
             );
         }
+        return res.status(400).josn({status : 'failed', error : "no user found"});
     }catch(error){
         console.log("error in deleting user",error);
     }
@@ -74,13 +75,14 @@ export const banOrUnbanUser = async (req,res)=>{
         const {userId, status} = req.body;
         const user = await userService.updateUserActiveStatus(userId, status);
         if (user) {
-            req.status(200).json(
+            return res.status(200).json(
                 {
                     status: "success",
                     message: `User active status updated with userId: ${userId}`
                 }
             );
         }
+        return res.status(400).josn({status : 'failed', error : "no user found"});
     } catch (error) {
         console.log("error in banning user",error);
     }
@@ -97,13 +99,14 @@ export const promoteUser = async (req,res)=>{
         const { userId, role } = req.body;
         const user = await userService.updateUserRole(userId, role);
         if (user) {
-            req.status(200).json(
+            return res.status(200).json(
                 {
                     status: "success",
                     message: `User's role updated with userId: ${userId}`
                 }
             );
         }
+        return res.status(400).josn({status : 'failed', error : "no user found"});
     } catch (error) {
         console.log("error in promoting user",error);
     }
@@ -119,13 +122,14 @@ export const getAllUser = async(req,res)=>{
     try {
         const users = await userService.getAllUsers();
         if (users) {
-            req.status(200).json(
+            return res.status(200).json(
                 {
                     status: "success",
                     users: users
                 }
             );
         }
+        return res.status(400).josn({status : 'failed', error : "no user found"});
     } catch (error) {
         console.log("error in getting users",error);
     }

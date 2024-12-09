@@ -4,6 +4,7 @@ import cors from 'cors';
 import authRoutes from './src/routes/authRoutes.js';
 import blogRoutes from './src/routes/blogRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
+import adminRoutes from './src/routes/adminRoutes.js';
 import connectDB from './src/config/database.js';
 import bodyParser from 'body-parser';
 import createAdmin from './src/utils/createAdmin.js';
@@ -18,6 +19,7 @@ createAdmin().then(resp=>console.log("admin set up done")).catch(err=>console.lo
 app.use('/api/auth',authRoutes);
 app.use('/api/blog',blogRoutes);
 app.use('/api/user',userRoutes);
+app.use('/api/admin', adminRoutes);
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`);

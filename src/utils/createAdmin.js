@@ -22,6 +22,7 @@ const createAdmin = async () => {
       password,
       phone,
       fullName,
+      role : 'admin',
     };
     const userId = await authService.register(parsedUser);
     if (userId) {

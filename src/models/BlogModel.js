@@ -24,10 +24,10 @@ const blogSchema = new Schema(
         type: Boolean,
         default: false, // Flagged content
     },
-    flaggedBy :{
-      type: [mongoose.Schema.Types.ObjectId],
+    flaggedBy :[{
+      type: mongoose.Schema.Types.ObjectId,
       ref : "User",
-    }
+    }]
   },
   { timestamps: true }
 );
