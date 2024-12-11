@@ -1,6 +1,6 @@
 # RBAC Backend (Role-Based-Access-Control)
 
-In this application I created backed of a controlled blogging application. Where a user can post their blogs and can see others post which is approved by the admin or moderator. In this application following three roles are defined.
+In this application I created backend APIs of a controlled blogging application. Where a user can post their blogs and can see others post which is approved by the admin or moderator. In this application following three roles are defined.
 user - user can register and login, then they can create blogs and flagged other user's post.
 moderator - moderator can unflag a flagged post.
 admin - admin can do following things.
